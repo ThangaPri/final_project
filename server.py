@@ -34,9 +34,12 @@ def detect_emotion():
     dominant_emotion = response['dominant_emotion']
 
     #Display the output 
-    return f"For the given statement, the system response is 'anger': {anger},'disgust':{disgust}, 'fear':{fear}, 'joy':{joy} \
-    and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
+    if anger is None:
+        return " Invalid text! Please try again!"
+    else:
+        return f"For the given statement, the system response is 'anger': {anger},'disgust':{disgust}, 'fear':{fear}, 'joy':{joy} \
+        and 'sadness': {sadness}. The dominant emotion is {dominant_emotion}."
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5559,debug=True)
+    app.run(host="0.0.0.0", port=5560,debug=True)

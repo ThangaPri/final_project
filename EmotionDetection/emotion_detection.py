@@ -21,25 +21,35 @@ def emotion_detector(text_to_analyze):
     
     formatted_response=json.loads(response.text)
 
-    #Extract required set if emotionns
-    anger   =   formatted_response['emotionPredictions'][0]['emotion']['anger']
+    #Error Handling with status code
+    if response.status_code == 200:
+        #Extract required set if emotionns  
+        anger   =   formatted_response['emotionPredictions'][0]['emotion']['anger']
 
-    disgust =   formatted_response['emotionPredictions'][0]['emotion']['disgust']
+        disgust =   formatted_response['emotionPredictions'][0]['emotion']['disgust']
 
-    fear    =   formatted_response['emotionPredictions'][0]['emotion']['fear']
+        fear    =   formatted_response['emotionPredictions'][0]['emotion']['fear']
 
-    joy     =   formatted_response['emotionPredictions'][0]['emotion']['joy']
+        joy     =   formatted_response['emotionPredictions'][0]['emotion']['joy']
 
-    sadness =   formatted_response['emotionPredictions'][0]['emotion']['sadness']
+        sadness =   formatted_response['emotionPredictions'][0]['emotion']['sadness']
     
+        #logic to find dominant emotion which has highest score
+        emotions    =   {'anger': anger, 'disgust': disgust,'fear': fear,'joy': joy,'sadness': sadness}
 
-    #logic to find dominant emotion which has highest score
-    emotions    =   {'anger': anger, 'disgust': disgust,'fear': fear,'joy': joy,'sadness': sadness}
-
-    dominant_emotion    =   max(emotions, key= lambda x: emotions[x])
+        dominant_emotion    =   max(emotions, key= lambda x: emotions[x])
     
+    elif response.status_code == 400:
+        anger   =   None
+        disgust =   None
+        fear    =   None
+        sadness =   None
+        joy     =   None
+        dominant_emotion    =   None
+
     #return the result as outout
-    return {'anger': anger, 'disgust': disgust,'fear': fear,'joy': joy,'sadness': sadness,'dominant_emotion':dominant_emotion}
+    return {'anger': anger, 'disgust': disgust,'fear': fear,'joy': joy,'sadness': sadness,\
+    'dominant_emotion':dominant_emotion}
 
     
 
